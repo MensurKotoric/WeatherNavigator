@@ -5,6 +5,20 @@
     <title>Testing coordinates api</title>
 </head>
 <body>
+<input id="city">
+<button onclick="getData()">Search</button>
+<br>
+<label id="coordinates-latitude">latitude: </label>
+<label id="coordinates-longitude">longitude: </label>
+<script>
+    function getData() {
+      fetch('https://geocode.maps.co/search?city=klagenfurt&country=austria').
+        then(res => res.json()).
+        then(data => {
+            alert(JSON.stringify(data));
+      })
 
+    }
+</script>
 </body>
 </html>
