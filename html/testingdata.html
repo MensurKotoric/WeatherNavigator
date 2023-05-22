@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DataCheck</title>
+    <script>
+        function getData(){
+            //TODO get latitude and longitude from Input
+            fetch('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m')
+                .then(res => res.json())
+                .then(d => {
+                    const tableBody = document.querySelector('#currentData tbody');
+                    const row = tableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${d.latitude}</td>
+                        <td>${d.longitude}</td>
+                        <td>${d.current_weather.temperature}</td>
+                        <td>${d.current_weather.time}</td>
+                        <td>${d.current_weather.windspeed}</td>`
+                })
+        }
+    </script>
+</head>
+<body onload="getData()">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col sm-6">
+            <h1><a href="https://open-meteo.com/">Weather API</a></h1>
+            <h2 id="city"></h2>
+            <table class="table table-striped table-bordered" id="currentData">
+                <thead class="table-primary">
+                <tr>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Current temperature</th>
+                    <th>Time</th>
+                    <th>Windspeed</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
