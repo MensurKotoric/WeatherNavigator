@@ -5,19 +5,24 @@
     <title>Testing coordinates api</title>
 </head>
 <body>
-<input id="city">
+<label for="city">City:</label>
+<input id="city"><br>
+<label for="country">Country:</label>
+<input id="country">
 <button onclick="getData()">Search</button>
 <br>
-<label id="coordinates-latitude">latitude: </label>
+<label id="coordinates-latitude">latitude: </label><br>
 <label id="coordinates-longitude">longitude: </label>
 <script>
     function getData() {
-      fetch('https://geocode.maps.co/search?city=klagenfurt&country=austria').
-        then(res => res.json()).
-        then(data => {
-            alert(JSON.stringify(data));
-      })
-
+        const city = document.getElementById('city').value;
+        const country = document.getElementById('country').value;
+        const latitude = document.getElementById('coordinates-latitude');
+        const longitude = document.getElementById('coordinates-longitude');
+        fetch(`https://geocode.maps.co/search?city=${city}&country=${country}`).then(res => res.json()).then(data => {
+            latitude.innerHTML = 'latitude: '  + data[0].lat;
+            longitude.innerHTML = 'longitude: ' + data[0].lon;
+        })
     }
 </script>
 </body>
