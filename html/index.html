@@ -7,9 +7,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/3a31b41e62.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>Weather Navigator</title>
 </head>
 <body>
+<!-- Alert for fault input -->
+<div class="modal fade" id="errorCity" tabindex="-1" role="dialog" aria-labelledby="errorCity" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-danger">Error!!!</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">The city can not be found!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container-fluid p-5 bg-img text-white text-center"
      style="background-image: url('styles/background.png');background-size: 120%">
     <h1><i class='fas fa-cloud-sun-rain'></i> Weather Navigator</h1>
@@ -30,7 +57,7 @@
             <form>
                 <div class="form-floating mb-3 mt-3">
                     <div class="d-grid">
-                        <button type="button" class="btn btn-primary btn-block p-3" onclick="htmlSideOfWeatherData('Völkermarkt',12, 10, 23, 24, 2,95)"><i class="fas fa-search"></i> Search</button>
+                        <button type="button" class="btn btn-primary btn-block p-3" onclick="getCoordinates()"><i class="fas fa-search"></i> Search</button>
                     </div>
                 </div>
             </form>
@@ -68,9 +95,19 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4" id="output"></div>
-        <div class="col-sm-4"></div>
+        <div class="col-sm-4 pt-5" id="output"></div>
+        <div class="col-sm-8">
+            <figure class="highcharts-figure">
+                <div id="day"></div>
+            </figure>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <figure class="highcharts-figure">
+                <div id="week"></div>
+            </figure>
+        </div>
     </div>
 </div>
 </body>
