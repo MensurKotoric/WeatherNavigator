@@ -28,7 +28,9 @@ function getData(lat, long, city) {
             let hour = d.current_weather.time;
             hour = parseInt(hour.substring(hour.length - 5, hour.length - 3));
             // show basic information on a bootstrap card
-            htmlSideOfWeatherData(city, d.current_weather.temperature, d.daily.temperature_2m_min[0], d.daily.temperature_2m_max[0], d.current_weather.windspeed, d.hourly.relativehumidity_2m[hour], d.hourly.precipitation_probability[hour], d.hourly.weathercode[hour]);
+            // get current time
+            let time = new Date();
+            htmlSideOfWeatherData(city,time.toString().substring(16,21), d.current_weather.temperature, d.daily.temperature_2m_min[0], d.daily.temperature_2m_max[0], d.current_weather.windspeed, d.hourly.relativehumidity_2m[hour], d.hourly.precipitation_probability[hour], d.hourly.weathercode[hour]);
 
             // data for hourly temperature diagram
             let temperatureHourly = []; // array of temperature, index equal hour
@@ -75,33 +77,50 @@ function getData(lat, long, city) {
         });
 }
 
-function htmlSideOfWeatherData(city, temperature, min, max, windSpeed, relativeHumidity, precipitation, weatherCode) {
+function htmlSideOfWeatherData(city,time,temperature, min, max, windSpeed, relativeHumidity, precipitation, weatherCode) {
     const out = document.getElementById('output');
     let icon = '';
-    let width = 0;
-    if (weatherCode >= 90) { // thunderstorm
+    let info = '';
+    if (weatherCode >= 90) { // stormy
         icon = 'styles/thunderstormicon.png';
-        width = 30;
-    } else if (precipitation >= 80) { // rain
+        info = 'stormy';
+    } else if (precipitation >= 80) { // rainy
         icon = 'styles/rainyicon.png';
-        width = 40;
+        info = 'rainy';
     } else {
         icon = 'styles/sunnyicon.png'; //sunny
-        width = 40;
+        info = 'sunny';
     }
     out.innerHTML = `
-     <div class="card" style="flex-direction: row; border: 10px solid transparent; border-image:linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 100%) 10 round;">
-          <img class="mt-2 rounded mx-auto d-block card-img-top" src="${icon}" style="width: ${width}%">
-          <div class="card-body text-center">
-            <h3 class="card-title text-danger font-weight-bold">${city}</h3>
-            <h5 class="card-text">Current temperature [°C]: ${temperature}</h5>
-            <h5 class="card-text">Max [°C]: ${max}</h5>
-            <h5 class="card-text">Min [°C]: ${min}</h5>
-            <h5 class="card-text">Precipitation probability[%]: ${precipitation}</h5>
-            <h5 class="card-text">Relative humidty[%]: ${relativeHumidity}</h5>
-            <h5 class="card-text">Wind speed [km/h]: ${windSpeed}</h5>
+        <div class="card" style="color: #4B515D; border-radius: 35px;">
+          <div class="card-body p-4">
+            <div class="d-flex">
+              <h6 class="flex-grow-1">${city}</h6>
+              <h6>${time}</h6>
+            </div>
+
+            <div class="d-flex flex-column text-center mt-5 mb-4">
+              <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;">${temperature}°C</h6>
+              <span class="small" style="color: #868B94">${info}</span>
+            </div>
+
+            <div class="d-flex align-items-center">
+              <div class="flex-grow-1" style="font-size: 1rem;">
+                <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1">${windSpeed} km/h
+                  </span></div>
+                <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1">${relativeHumidity}%</span>
+                </div>
+                <div><i class="fas fa-cloud-rain fa-fw" style="color: #868B94;"></i> <span class="ms-1">${precipitation}%</span>
+                </div>
+              </div>
+              <div>
+                <img src=${icon}
+                  width="100px">
+              </div>
+            </div>
+
           </div>
-     </div>`;
+        </div>`;
 }
 
 function showHighChartsPerWeek(days, temperature, city) {
