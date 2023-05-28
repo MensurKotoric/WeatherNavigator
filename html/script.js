@@ -28,7 +28,7 @@ function getCoordinates() {
     // fetching via api
     fetch(`https://geocode.maps.co/search?city=${city}`).then(res => res.json()).then(data => {
         // check if data is true
-        let name = data[0].display_name.substring(0,data[0].display_name.indexOf(','));
+        let name = data[0].display_name.substring(0,city.length);
         if(name === city){
             latitude.value = data[0].lat;
             longitude.value = data[0].lon;
