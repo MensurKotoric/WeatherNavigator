@@ -19,12 +19,12 @@
 </head>
 <body onload="start()">
 <!-- Alert for fault input -->
-<div class="modal fade" id="errorCity" tabindex="-1" role="dialog" aria-labelledby="errorCity" aria-hidden="true" onkeypress="check(event)">
+<div class="modal fade" id="errorCity" tabindex="-1" role="dialog" aria-labelledby="errorCity" aria-hidden="true" onkeypress="check(event, false)">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title text-danger">Error!!!</h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="check(event,true)">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -32,7 +32,7 @@
                 <p class="modal-text">The city can not be found!</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="check(event,true)">Close</button>
             </div>
         </div>
     </div>
