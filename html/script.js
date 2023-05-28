@@ -1,5 +1,6 @@
 // search by pressing enter in input tag
 function start() {
+    $('#city').focus(); // jQuery  | equal to document.getElementById('city').focus()
     document.getElementById("city").addEventListener("submit", function (event) {
         event.preventDefault();
     });
@@ -11,10 +12,9 @@ function start() {
     });
 }
 // close bootstrap modal by pressing enter
-function check(e){
-    if(e.key === "Enter"){
-        $('#errorCity').hide();
-        $('.modal-backdrop').hide();
+function check(e, buttonPressed){
+    if(e.key === "Enter" || buttonPressed){
+        $('#errorCity').modal('hide');
         $('#city').focus();
     }
 }
@@ -35,8 +35,7 @@ function getCoordinates() {
         document.getElementById('city').value = '';
         // show message boostrap modal
         if (document.getElementById('city').value == '') {
-            let myModal = new bootstrap.Modal(document.getElementById("errorCity"));
-            myModal.show();
+            $('#errorCity').modal('show');
         }
     });
 }
