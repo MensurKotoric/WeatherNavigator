@@ -1,3 +1,15 @@
+function start() {
+    document.getElementById("city").addEventListener("submit", function (event) {
+        event.preventDefault();
+    });
+    document.getElementById("city").addEventListener("keydown", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            getCoordinates();
+        }
+    });
+}
+
 function getCoordinates() {
     //input
     const city = document.getElementById('city').value;
@@ -30,7 +42,7 @@ function getData(lat, long, city) {
             // show basic information on a bootstrap card
             // get current time
             let time = new Date();
-            htmlSideOfWeatherData(city,time.toString().substring(16,21), d.current_weather.temperature, d.daily.temperature_2m_min[0], d.daily.temperature_2m_max[0], d.current_weather.windspeed, d.hourly.relativehumidity_2m[hour], d.hourly.precipitation_probability[hour], d.hourly.weathercode[hour]);
+            htmlSideOfWeatherData(city, time.toString().substring(16, 21), d.current_weather.temperature, d.daily.temperature_2m_min[0], d.daily.temperature_2m_max[0], d.current_weather.windspeed, d.hourly.relativehumidity_2m[hour], d.hourly.precipitation_probability[hour], d.hourly.weathercode[hour]);
 
             // data for hourly temperature diagram
             let temperatureHourly = []; // array of temperature, index equal hour
@@ -77,7 +89,7 @@ function getData(lat, long, city) {
         });
 }
 
-function htmlSideOfWeatherData(city,time,temperature, min, max, windSpeed, relativeHumidity, precipitation, weatherCode) {
+function htmlSideOfWeatherData(city, time, temperature, min, max, windSpeed, relativeHumidity, precipitation, weatherCode) {
     const out = document.getElementById('output');
     let icon = '';
     let info = '';
