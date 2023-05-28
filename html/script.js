@@ -1,13 +1,22 @@
+// search by pressing enter in input tag
 function start() {
     document.getElementById("city").addEventListener("submit", function (event) {
         event.preventDefault();
     });
     document.getElementById("city").addEventListener("keydown", function (event) {
-        if (event.keyCode === 13) {
+        if (event.key === "Enter") {
             event.preventDefault();
             getCoordinates();
         }
     });
+}
+// close bootstrap modal by pressing enter
+function check(e){
+    if(e.key === "Enter"){
+        $('#errorCity').hide();
+        $('.modal-backdrop').hide();
+        $('#city').focus();
+    }
 }
 
 function getCoordinates() {
