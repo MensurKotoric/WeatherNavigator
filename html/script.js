@@ -27,8 +27,7 @@ function getData(lat, long) {
                         <td>${d.current_weather.temperature}</td>
                         <td>${d.current_weather.time}</td>
                         <td>${d.current_weather.windspeed}</td>`
-        })
-    });
+        });
 }
 function htmlSideOfWeatherData(city,temperature, min, max, windSpeed, precipitation, cloudCoverHigh){
     const out = document.getElementById('output');
