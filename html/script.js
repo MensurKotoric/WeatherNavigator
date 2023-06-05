@@ -31,13 +31,17 @@ function getCoordinates() {
         // check if data is true
         let name = data[0].display_name.substring(0, city.length);
         if (city.substring(0, 3).toLowerCase() === "st.") {
-            name = data[0].display_name.substring(0, city.length+2);
+            name = data[0].display_name.substring(0, city.length + 2);
             city = "sankt" + city.substring(3, city.length);
         }
         if (name.toLowerCase() === city.toLowerCase()) {
             latitude.value = data[0].lat;
             longitude.value = data[0].lon;
-            getData(data[0].lat, data[0].lon, name);
+            getData(data[0].lat, data[0].lon, data[0].display_name);
+        } else if (data[1].display_name.substring(0, city.length).toLowerCase() === city.toLowerCase()) {
+            latitude.value = data[0].lat;
+            longitude.value = data[0].lon;
+            getData(data[1].lat, data[1].lon,data[1].display_name.substring(0, city.length));
         } else {
             throw Error();
         }
