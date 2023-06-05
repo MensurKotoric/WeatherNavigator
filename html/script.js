@@ -29,7 +29,7 @@ function getCoordinates() {
     fetch(`https://geocode.maps.co/search?city=${city}`).then(res => res.json()).then(data => {
         // check if data is true
         let name = data[0].display_name.substring(0,city.length);
-        if(name === city){
+        if(name.toLowerCase() === city.toLowerCase()){
             latitude.value = data[0].lat;
             longitude.value = data[0].lon;
             getData(data[0].lat, data[0].lon, city);
