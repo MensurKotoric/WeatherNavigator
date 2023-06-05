@@ -19,30 +19,42 @@ function check(e, buttonPressed) {
         $('#city').focus();
     }
 }
-
-function getCoordinates() {
+function getCoordinates(){
     //input
     let city = document.getElementById('city').value;
     //output
     const latitude = document.getElementById('latitude');
     const longitude = document.getElementById('longitude');
-    // fetching via api
-    fetch(`https://geocode.maps.co/search?city=${city}`).then(res => res.json()).then(data => {
-        // check if data is true
-        let name = data[0].display_name.substring(0, city.length);
-        if (city.substring(0, 3).toLowerCase() === "st.") {
-            name = data[0].display_name.substring(0, city.length + 2);
-            city = "sankt" + city.substring(3, city.length);
-        }
-        if (name.toLowerCase() === city.toLowerCase()) {
-            latitude.value = data[0].lat;
-            longitude.value = data[0].lon;
-            getData(data[0].lat, data[0].lon, data[0].display_name);
-        } else if (data[1].display_name.substring(0, city.length).toLowerCase() === city.toLowerCase()) {
-            latitude.value = data[0].lat;
-            longitude.value = data[0].lon;
-            getData(data[1].lat, data[1].lon,data[1].display_name.substring(0, city.length));
-        } else {
+    // api key
+    const key = 'a36e28109dbcd70e15694d4fa726f64f';
+    // change st. to sankt for city name
+    if(city.toLowerCase().includes("st.")){
+        city = city.toLowerCase().replace("st.", "sankt");
+    }
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${key}`).then(res => res.json()).then(data => {
+        let founded = false;
+        // every is a foreach loop, but if return false it break the loop and if true it continuous the loop
+        // go through all possible city names and check if one city name equals to the input city name
+        data.every(d => {
+            if(d.name.toLowerCase().includes(city.toLowerCase())){
+                founded = true;
+                latitude.value = d.lat;
+                longitude.value = d.lon;
+                getData(d.lat,d.lon, d.name.toLowerCase().includes(city.toLowerCase()) ? d.name + " {" + d.country + "}" : d.local_names.de + " {" + d.country + "}");
+                return false;
+            } else if(d.local_names.de != null){
+                if(d.local_names.de.toLowerCase().includes(city.toLowerCase())){
+                    founded = true;
+                    latitude.value = d.lat;
+                    longitude.value = d.lon;
+                    getData(d.lat,d.lon, d.name.toLowerCase().includes(city.toLowerCase()) ? d.name + " {" + d.country + "}" : d.local_names.de + " {" + d.country + "}");
+                    return false;
+                }
+            }
+            return true;
+        });
+        // if the city is not found, an error is thrown
+        if(!founded){
             throw Error();
         }
     }).catch(err => {
@@ -54,7 +66,6 @@ function getCoordinates() {
         }
     });
 }
-
 function getData(lat, long, city) {
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current_weather=true&hourly=temperature_2m,relativehumidity_2m,precipitation_probability,weathercode&timezone=Europe/Berlin&daily=temperature_2m_max,temperature_2m_min`)
         .then(res => res.json())
