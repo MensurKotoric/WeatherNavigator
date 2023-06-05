@@ -11,9 +11,10 @@ function start() {
         }
     });
 }
+
 // close bootstrap modal by pressing enter
-function check(e, buttonPressed){
-    if(e.key === "Enter" || buttonPressed){
+function check(e, buttonPressed) {
+    if (e.key === "Enter" || buttonPressed) {
         $('#errorCity').modal('hide');
         $('#city').focus();
     }
@@ -21,18 +22,22 @@ function check(e, buttonPressed){
 
 function getCoordinates() {
     //input
-    const city = document.getElementById('city').value;
+    let city = document.getElementById('city').value;
     //output
     const latitude = document.getElementById('latitude');
     const longitude = document.getElementById('longitude');
     // fetching via api
     fetch(`https://geocode.maps.co/search?city=${city}`).then(res => res.json()).then(data => {
         // check if data is true
-        let name = data[0].display_name.substring(0,city.length);
-        if(name.toLowerCase() === city.toLowerCase()){
+        let name = data[0].display_name.substring(0, city.length);
+        if (city.substring(0, 3).toLowerCase() === "st.") {
+            name = data[0].display_name.substring(0, city.length+2);
+            city = "sankt" + city.substring(3, city.length);
+        }
+        if (name.toLowerCase() === city.toLowerCase()) {
             latitude.value = data[0].lat;
             longitude.value = data[0].lon;
-            getData(data[0].lat, data[0].lon, city);
+            getData(data[0].lat, data[0].lon, name);
         } else {
             throw Error();
         }
