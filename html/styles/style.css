@@ -1,0 +1,25 @@
+.form-control:active,
+.form-control:focus,
+.form-control:focus:active {
+    background-color: rgb(32,43,59);
+    color: white;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0 30px rgb(32,43,59) inset !important;
+}
+
+.highcharts-contextmenu .highcharts-menu-item{
+    background-color: #202B3B !important;
+    color:white !important;
+}
+.highcharts-contextmenu-box {
+    background-color: #202B3B !important;
+    color:white !important;
+}
+.highcharts-menu {
+    background-color: #202B3B !important;
+    color:white !important;
+}
